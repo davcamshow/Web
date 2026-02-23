@@ -82,11 +82,17 @@ const Header: React.FC<HeaderProps> = ({ onContactClick }) => {
               { name: 'Proyectos', id: 'projects' },
               { name: 'Educación', id: 'education' },
               { name: 'Habilidades', id: 'skills' },
-              { name: 'Contacto', id: 'hero' } // Contacto también lleva al Hero
+              { name: 'Contacto', id: 'hero' }
             ].map((item) => (
               <button
                 key={item.name}
-                onClick={() => scrollToSection(item.id)}
+                onClick={() => {
+                  if (item.id === 'hero' && item.name === 'Contacto') {
+                    onContactClick();
+                  } else {
+                    scrollToSection(item.id);
+                  }
+                }}
                 className={`relative px-4 py-2 transition-colors group overflow-hidden ${
                   activeSection === item.id
                     ? 'text-[#8b7355] font-medium'
@@ -147,9 +153,12 @@ const Header: React.FC<HeaderProps> = ({ onContactClick }) => {
               </button>
             ))}
             
-            {/* Contacto en móvil - también lleva al Hero */}
+            {/* Contacto en móvil - abre el modal */}
             <button
-              onClick={() => scrollToSection('hero')}
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                onContactClick();
+              }}
               className={`block w-full text-left px-4 py-3 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-md ${
                 activeSection === 'hero'
                   ? 'bg-gradient-to-r from-[#d9b99b]/20 to-[#b89b7a]/20 text-[#8b7355]'
